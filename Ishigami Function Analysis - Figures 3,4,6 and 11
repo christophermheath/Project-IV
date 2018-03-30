@@ -43,11 +43,18 @@ Ishapply <- function (my.data) {
   return(mapply(Ishfun, my.data[,1], my.data[,2], my.data[,3]))
 }
 
+#Figure 3
 Mo <- morris(model = Ishapply, factors = 3, r = 6,
             design = list(type = "oat", levels = 20, grid.jump = 10),binf=-pi,bsup=pi)
 print(Mo)
 plot(Mo,identify=TRUE,atpen=TRUE)
 
+
+#Figure 4
+Mo <- morris(model = Ishapply, factors = 3, r = 6,
+            design = list(type = "oat", levels = 8, grid.jump = 4),binf=-pi,bsup=pi)
+print(Mo)
+plot(Mo,identify=TRUE,atpen=TRUE)
 
 
 ### Via the FAST Method ###
