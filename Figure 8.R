@@ -1,21 +1,13 @@
 install.packages("fast")
 library(fast)
 
-freq_cukier(2, i = 1, omega_before = 0)
-freq_mcrae82(2, i = 1, omega_before = 0)
-
+freq_cukier(2)
+freq_cukier(3)
+freq_cukier(4)
 freq_cukier(5)
 freq_cukier(6)
 freq_cukier(7)
 freq_cukier(8)
-
-freq_mcrae82(5)
-freq_mcrae82(6)
-freq_mcrae82(7)
-freq_mcrae82(8)
-
-freq_cukier(2)
-freq_mcrae82(2)
 
 # 3 7
 # 1 9 13
