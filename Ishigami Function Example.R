@@ -1,0 +1,74 @@
+###Via the Sobol Method###
+
+install.packages("sensitivity")
+library(sensitivity)
+
+x <- c(runif(200000,min=-pi,max=pi))
+y <- c(runif(200000,min=-pi,max=pi))
+z <- c(runif(200000,min=-pi,max=pi))
+
+X = cbind(x,y,z)
+
+s1 = X[1:100000,]
+s2 = X[100001:200000,]
+
+Ishfun <- function (a,b,c) {
+  Y = sin(a) + 7*sin(b)^2 + (c^4)/10 * sin(a)
+  return (Y)
+}
+
+Ishapply <- function (my.data) {
+  return(mapply(Ishfun, my.data[,1], my.data[,2], my.data[,3]))
+}
+
+t1 <- sobol(model=Ishapply,s1,s2,order=3)
+print(t1)
+plot(t1,ylim=c(0,0.5))
+title(xlab="Parameters",ylab="Sobol Index")
+
+t2 <- sobol2002(model=Ishapply,s1,s2,nboot=100)
+print(t2)
+plot(t2)
+
+t3 <- soboljansen(model=Ishapply,s1,s2,nboot=100)
+print(t3)
+plot(t3)
+
+par(mfrow=c(2,1))
+plot(t1)
+title(xlab="Paramters", ylab="Sobol Index")
+plot(t2)
+title(xlab="Parameter", ylab="Sobol Index")
+
+
+
+###Via Morris Method###
+
+install.packages("sensitivity")
+library(sensitivity)
+
+Ishfun <- function (a,b,c) {
+  Y = sin(a) + 7*sin(b)^2 + (c^4)/10 * sin(a)
+  return (Y)
+}
+
+Ishapply <- function (my.data) {
+  return(mapply(Ishfun, my.data[,1], my.data[,2], my.data[,3]))
+}
+
+Mo <- morris(model = Ishapply, factors = 3, r = 6,
+            design = list(type = "oat", levels = 20, grid.jump = 10),binf=-pi,bsup=pi)
+print(Mo)
+plot(Mo,identify=TRUE,atpen=TRUE)
+
+plot(Mo, identify = TRUE, atpen = FALSE,col=2)
+
+### Via the FAST Method ###
+
+FAST <- fast99(model=Ishapply,factors=3,n=10000000,q = "qunif", q.arg = list(min = -pi, max = pi))
+print(FAST)
+plot(FAST)
+title(main="FAST Sensitivity Output",xlab="Parameter",ylab="S")
+
+
+
