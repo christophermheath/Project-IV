@@ -1,0 +1,27 @@
+install.packages("sensitivity")
+library(sensitivity)
+
+Ishfun <- function (a,b,c) {  
+  Y = sin(a) + 7*sin(b)^2 + (c^4)/10 * sin(a)  
+  return (Y)
+}
+Ishapply <- function (my.data) {  
+  return(mapply(Ishfun, my.data[,1], my.data[,2], my.data[,3]))
+}
+
+samples <- function(n){ 
+  a = fast99(model=Ishapply,factors=3,n,M=4,q = "qunif", q.arg = list(min = -pi, max = pi))  
+  one = a$D1[1]/a$V[1]  
+  return(one)
+}
+
+min = samples(66)
+t = samples(100)
+b = samples(200)
+c = samples(500)
+d = samples(1000)
+e = samples(2000)
+n = c(66,100,200,500,1000)
+
+plot(n,c(min,t,b,c,d),ylim=c(0,0.5),xlab="Samples Taken",ylab="FAST estiamte for S1")
+abline(h = 0.3139051911,col="blue")
