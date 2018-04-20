@@ -45,7 +45,7 @@ Ishapply <- function (my.data) {
 
 #Figure 3
 Mo <- morris(model = Ishapply, factors = 3, r = 6,
-            design = list(type = "oat", levels = 20, grid.jump = 10),binf=-pi,bsup=pi)
+            design = list(type = "oat", levels = 10, grid.jump = 5),binf=-pi,bsup=pi)
 print(Mo)
 plot(Mo,identify=TRUE,atpen=TRUE)
 
